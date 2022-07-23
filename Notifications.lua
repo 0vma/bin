@@ -1,518 +1,215 @@
-function CreateMain(title)
-	local destroyIfExist = game.CoreGui:GetChildren()
-	for index, destroyIfExist in pairs(destroyIfExist) do
-		if destroyIfExist.Name == title then
-			print("Destroyed "..tostring(title)..": Already existed")
-			destroyIfExist:Destroy()
-		end
-	end
-	local Rodus = Instance.new("ScreenGui")
-	local Top = Instance.new("Frame")
-	local Title = Instance.new("TextLabel")
-	local Container = Instance.new("Frame")
-	local UIListLayout = Instance.new("UIListLayout")
-	local Minimize = Instance.new("TextButton")
+local TweenService = game:GetService("TweenService");
+local RunService = game:GetService("RunService");
+local TextService = game:GetService("TextService");
 
-	Rodus.Name = tostring(title)
-	Rodus.Parent = game:WaitForChild("CoreGui")
-	Rodus.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local Player = game:GetService("Players").LocalPlayer;
 
-	Top.Name = "Top"
-	Top.Parent = Rodus
-	Top.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	Top.BackgroundTransparency = 0.500
-	Top.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	Top.BorderSizePixel = 4
-	Top.Position = UDim2.new(0, 15, 0, 15)
-	Top.Size = UDim2.new(0, 193, 0, 27)
+local NotifGui = Instance.new("ScreenGui");
+NotifGui.Name = "AkaliNotif";
+NotifGui.Parent = RunService:IsStudio() and Player.PlayerGui or game:GetService("CoreGui");
 
-	Title.Name = "Title"
-	Title.Parent = Top
-	Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	Title.BackgroundTransparency = 0.350
-	Title.BorderSizePixel = 0
-	Title.Size = UDim2.new(0, 193, 0, 27)
-	Title.Font = Enum.Font.JosefinSans
-	Title.Text = " "..title
-	Title.TextColor3 = Color3.fromRGB(0, 255, 0)
-	Title.TextSize = 14.000
-	Title.TextXAlignment = Enum.TextXAlignment.Left
+local Container = Instance.new("Frame");
+Container.Name = "Container";
+Container.Position = UDim2.new(0, 20, 0.5, -20);
+Container.Size = UDim2.new(0, 300, 0.5, 0);
+Container.BackgroundTransparency = 1;
+Container.Parent = NotifGui;
 
-	Container.Name = "Container"
-	Container.Parent = Top
-	Container.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-	Container.BackgroundTransparency = 0.500
-	Container.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	Container.BorderSizePixel = 4
-	Container.Position = UDim2.new(0, 0, 1.29629624, 0)
-	Container.Size = UDim2.new(0, 193, 0, 24)
-
-	UIListLayout.Parent = Container
-	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-	
-	Minimize.Name = "Minimize"
-	Minimize.Parent = Top
-	Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Minimize.BackgroundTransparency = 1.000
-	Minimize.Position = UDim2.new(0.906735778, 0, 0.185185179, 0)
-	Minimize.Size = UDim2.new(0, 18, 0, 17)
-	Minimize.Font = Enum.Font.SourceSans
-	Minimize.Text = "-"
-	Minimize.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Minimize.TextSize = 14.000
-	tog_gled = false
-	Minimize.MouseButton1Down:Connect(function()
-		tog_gled = not tog_gled
-		if tog_gled then Minimize.Text = "+" Container.Visible = false else Minimize.Text = "-" Container.Visible = true end
-	end)
-
-
-
-	Top.Active = true
-
-	Top.Draggable = true
-
-
-	function onKeyPress(inputObject, gameProcessedEvent)
-		if inputObject.KeyCode == Enum.KeyCode.RightControl then
-			if game.CoreGui[title].Top.Visible == false then game.CoreGui[title].Top.Visible = true
-			else game.CoreGui[title].Top.Visible = false end
-		end
-
-
-	end
-
-	game:GetService("UserInputService").InputBegan:connect(onKeyPress)
-	
-	function CreateTab(text)
-		local Tab = Instance.new("TextButton")
-		local Arrow = Instance.new("TextLabel")
-		Tab.Name = text
-		Tab.Parent = Container
-		Tab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-		Tab.BackgroundTransparency = 1.000
-		Tab.Size = UDim2.new(0, 193, 0, 24)
-		Tab.Font = Enum.Font.JosefinSans
-		Tab.Text = " "..text
-		Tab.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Tab.TextSize = 14.000
-		Tab.TextXAlignment = Enum.TextXAlignment.Left
-
-		Arrow.Name = "Arrow"
-		Arrow.Parent = Tab
-		Arrow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		Arrow.BackgroundTransparency = 1.000
-		Arrow.Position = UDim2.new(0.907, 0, 0, 0)
-		Arrow.Size = UDim2.new(0, 18, 0, 21)
-		Arrow.Font = Enum.Font.SourceSans
-		Arrow.Text = ">>"
-		Arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Arrow.TextScaled = true
-		Arrow.TextSize = 14.000
-		Arrow.TextWrapped = true
-		
-		Container.Size = UDim2.new(0, UIListLayout.AbsoluteContentSize.X, 0, UIListLayout.AbsoluteContentSize.Y)
-		
-		local TabContainer = Instance.new("Frame")
-		TabContainer.Name = "TabContainer"
-		TabContainer.Parent = Tab
-		TabContainer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-		TabContainer.BackgroundTransparency = 0.500
-		TabContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		TabContainer.BorderSizePixel = 4
-		TabContainer.Position = UDim2.new(1.0569948, 0, 0, 0)
-		TabContainer.Visible = false
-		Tab.MouseButton1Down:Connect(function()
-			if TabContainer.Visible == false then
-				local allTabs = TabContainer.Parent.Parent:GetDescendants()
-				for index, allTabs in pairs(allTabs) do
-					if allTabs.Name == "TabContainer" then
-						allTabs.Visible = false
-						allTabs.Parent.TextColor3 = Color3.new(255, 255, 255)
-						allTabs.Parent.Arrow.TextColor3 = Color3.new(255, 255, 255)
-					end
-				end
-				TabContainer.Visible = true
-				Tab.TextColor3 = Color3.new(0, 255, 0)
-				Tab.Arrow.TextColor3 = Color3.new(0, 255, 0)
-			else 
-				TabContainer.Visible = false
-				Tab.TextColor3 = Color3.new(255, 255, 255)
-				Tab.Arrow.TextColor3 = Color3.new(255, 255, 255)
-			end
-		end)
-		local UIListLayout2 = Instance.new("UIListLayout")
-		UIListLayout2.Parent = TabContainer
-		UIListLayout2.SortOrder = Enum.SortOrder.LayoutOrder
-		
-		function CreateButton(parent, buttonText, note, callback)
-			local Button = Instance.new("TextButton")
-			local Note = Instance.new("TextLabel")
-
-			Button.Name = buttonText
-			Button.Parent = parent.TabContainer
-			Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			Button.BackgroundTransparency = 1.000
-			Button.Size = UDim2.new(0, 193, 0, 24)
-			Button.Font = Enum.Font.JosefinSans
-			Button.Text = " "..buttonText
-			Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Button.TextSize = 14.000
-			Button.TextXAlignment = Enum.TextXAlignment.Left
-			Button.MouseEnter:Connect(function()
-				Button.Note.Visible = true
-			end)
-			Button.MouseLeave:Connect(function()
-				Button.Note.Visible = false
-			end)
-			Button.MouseButton1Down:Connect(function()
-				Button.TextColor3 = Color3.new(0, 255, 0)
-				wait(0.05)
-				Button.TextColor3 = Color3.new(255, 255, 255)
-				pcall(callback)
-			end)
-
-			Note.Name = "Note"
-			Note.Parent = Button
-			Note.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Note.BackgroundTransparency = 1.000
-			Note.Position = UDim2.new(1.04145074, 0, 0, 0)
-			Note.Size = UDim2.new(0, 193, 0, 24)
-			Note.Font = Enum.Font.JosefinSans
-			Note.Text = note
-			Note.TextColor3 = Color3.fromRGB(0, 255, 0)
-			Note.TextSize = 14.000
-			Note.TextXAlignment = Enum.TextXAlignment.Left
-			Note.Visible = false
-			
-			parent.TabContainer.Size = UDim2.new(0, parent.TabContainer.UIListLayout.AbsoluteContentSize.X, 0, parent.TabContainer.UIListLayout.AbsoluteContentSize.Y)
-		end
-		
-		function CreateLabel(parent, labelText, color3)
-			local Label = Instance.new("TextLabel")
-
-			Label.Name = labelText
-			Label.Parent = parent.TabContainer
-			Label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			Label.BackgroundTransparency = 1.000
-			Label.Size = UDim2.new(0, 193, 0, 24)
-			Label.Font = Enum.Font.JosefinSans
-			Label.Text = " "..labelText
-			Label.TextColor3 = color3
-			Label.TextSize = 14.000
-			Label.TextXAlignment = Enum.TextXAlignment.Left
-			
-			parent.TabContainer.Size = UDim2.new(0, parent.TabContainer.UIListLayout.AbsoluteContentSize.X, 0, parent.TabContainer.UIListLayout.AbsoluteContentSize.Y)
-		end
-		
-		function CreateToggle(parent, buttonText, note, callback)
-			local Button = Instance.new("TextButton")
-			local Note = Instance.new("TextLabel")
-			local Toggle = Instance.new("BoolValue")
-			
-			Button.Name = buttonText
-			Button.Parent = parent.TabContainer
-			Toggle.Parent = Button
-			Toggle.Name = "Toggled"
-			Toggle.Value = false
-			Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			Button.BackgroundTransparency = 1.000
-			Button.Size = UDim2.new(0, 193, 0, 24)
-			Button.Font = Enum.Font.JosefinSans
-			Button.Text = " "..buttonText
-			Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Button.TextSize = 14.000
-			Button.TextXAlignment = Enum.TextXAlignment.Left
-			Button.MouseEnter:Connect(function()
-				Button.Note.Visible = true
-			end)
-			Button.MouseLeave:Connect(function()
-				Button.Note.Visible = false
-			end)
-			Button.MouseButton1Down:Connect(function()
-				Toggle.Value = not Toggle.Value
-				toggled = Toggle.Value
-				if Button.TextColor3 == Color3.new(0, 255, 0) then
-					Button.TextColor3 = Color3.new(255, 255, 255)
-				else Button.TextColor3 = Color3.new(0, 255, 0) 
-				end
-				pcall(callback)
-			end)
-			Note.Name = "Note"
-			Note.Parent = Button
-			Note.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Note.BackgroundTransparency = 1.000
-			Note.Position = UDim2.new(1.04145074, 0, 0, 0)
-			Note.Size = UDim2.new(0, 193, 0, 24)
-			Note.Font = Enum.Font.JosefinSans
-			Note.Text = note
-			Note.TextColor3 = Color3.fromRGB(0, 255, 0)
-			Note.TextSize = 14.000
-			Note.TextXAlignment = Enum.TextXAlignment.Left
-			Note.Visible = false
-			
-			
-			parent.TabContainer.Size = UDim2.new(0, parent.TabContainer.UIListLayout.AbsoluteContentSize.X, 0, parent.TabContainer.UIListLayout.AbsoluteContentSize.Y)
-		end
-		
-		function CreateSideDropButton(parent, dropText, list, callback)
-			local SideDrop = Instance.new("TextButton")
-			local Arrow = Instance.new("TextButton")
-			local DropContainer = Instance.new("Frame")
-			local UIListLayout = Instance.new("UIListLayout")
-
-			SideDrop.Name = dropText
-			SideDrop.Parent = parent.TabContainer
-			SideDrop.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			SideDrop.BackgroundTransparency = 1.000
-			SideDrop.Size = UDim2.new(0, 193, 0, 24)
-			SideDrop.Font = Enum.Font.JosefinSans
-			SideDrop.Text = " "..dropText
-			SideDrop.TextColor3 = Color3.fromRGB(255, 255, 255)
-			SideDrop.TextSize = 14.000
-			SideDrop.TextXAlignment = Enum.TextXAlignment.Left
-			SideDrop.MouseButton1Down:Connect(function()
-				if SideDrop.TextColor3 == Color3.new(0, 255, 0) then
-					SideDrop.TextColor3 = Color3.new(255, 255, 255)
-					SideDrop.Arrow.TextColor3 = Color3.new(255, 255, 255)
-					DropContainer.Visible = false
-				else 
-					local allTabs = game.CoreGui[title].Top.Container:GetDescendants()
-					for index, allTabs in pairs(allTabs) do
-						if allTabs.Name == "DropContainer" then
-							allTabs.Visible = false
-							allTabs.Parent.TextColor3 = Color3.new(255, 255, 255)
-							allTabs.Parent.Arrow.TextColor3 = Color3.new(255, 255, 255)
-						end
-					end
-					SideDrop.TextColor3 = Color3.new(0, 255, 0)
-					SideDrop.Arrow.TextColor3 = Color3.new(0, 255, 0)
-					DropContainer.Visible = true
-				end
-			end)
-
-			Arrow.Name = "Arrow"
-			Arrow.Parent = SideDrop
-			Arrow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Arrow.BackgroundTransparency = 1.000
-			Arrow.Position = UDim2.new(0.906735778, 0, 0, 0)
-			Arrow.Size = UDim2.new(0, 18, 0, 21)
-			Arrow.Font = Enum.Font.SourceSans
-			Arrow.Text = ">>"
-			Arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Arrow.TextScaled = true
-			Arrow.TextSize = 14.000
-			Arrow.TextWrapped = true
-
-			DropContainer.Name = "DropContainer"
-			DropContainer.Parent = SideDrop
-			DropContainer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			DropContainer.BackgroundTransparency = 0.500
-			DropContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			DropContainer.BorderSizePixel = 4
-			DropContainer.Position = UDim2.new(1.08290148, 0, 0, 0)
-			DropContainer.Size = UDim2.new(0, 193, 0, 72)
-			DropContainer.Visible = false
-
-			UIListLayout.Parent = DropContainer
-			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-			
-			for i,v in next, list do
-				local Button = Instance.new("TextButton")
-				Button.Name = v
-				Button.Parent = SideDrop.DropContainer
-				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-				Button.BackgroundTransparency = 1.000
-				Button.Size = UDim2.new(0, 193, 0, 24)
-				Button.Font = Enum.Font.JosefinSans
-				Button.Text = " "..v
-				Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-				Button.TextSize = 14.000
-				Button.TextXAlignment = Enum.TextXAlignment.Left
-				Button.MouseButton1Down:Connect(function()
-					Button.TextColor3 = Color3.new(0, 255, 0)
-					wait(0.05)
-					Button.TextColor3 = Color3.new(255, 255, 255)
-					callback(v)
-				end)
-				DropContainer.Size = UDim2.new(0, DropContainer.UIListLayout.AbsoluteContentSize.X, 0, DropContainer.UIListLayout.AbsoluteContentSize.Y)
-				parent.TabContainer.Size = UDim2.new(0, parent.TabContainer.UIListLayout.AbsoluteContentSize.X, 0, parent.TabContainer.UIListLayout.AbsoluteContentSize.Y)
-			end
-		end
-		
-		function CreateSideDropToggle(parent, dropText, list, callback)
-			local SideDrop = Instance.new("TextButton")
-			local Arrow = Instance.new("TextButton")
-			local DropContainer = Instance.new("Frame")
-			local UIListLayout = Instance.new("UIListLayout")
-
-			SideDrop.Name = dropText
-			SideDrop.Parent = parent.TabContainer
-			SideDrop.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			SideDrop.BackgroundTransparency = 1.000
-			SideDrop.Size = UDim2.new(0, 193, 0, 24)
-			SideDrop.Font = Enum.Font.JosefinSans
-			SideDrop.Text = " "..dropText
-			SideDrop.TextColor3 = Color3.fromRGB(255, 255, 255)
-			SideDrop.TextSize = 14.000
-			SideDrop.TextXAlignment = Enum.TextXAlignment.Left
-			SideDrop.MouseButton1Down:Connect(function()
-				if SideDrop.TextColor3 == Color3.new(0, 255, 0) then
-					SideDrop.TextColor3 = Color3.new(255, 255, 255)
-					SideDrop.Arrow.TextColor3 = Color3.new(255, 255, 255)
-					DropContainer.Visible = false
-				else 
-					local allTabs = game.CoreGui[title].Top.Container:GetDescendants()
-					for index, allTabs in pairs(allTabs) do
-						if allTabs.Name == "DropContainer" then
-							allTabs.Visible = false
-							allTabs.Parent.TextColor3 = Color3.new(255, 255, 255)
-							allTabs.Parent.Arrow.TextColor3 = Color3.new(255, 255, 255)
-						end
-					end
-					SideDrop.TextColor3 = Color3.new(0, 255, 0)
-					SideDrop.Arrow.TextColor3 = Color3.new(0, 255, 0)
-					DropContainer.Visible = true
-				end
-			end)
-
-			Arrow.Name = "Arrow"
-			Arrow.Parent = SideDrop
-			Arrow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Arrow.BackgroundTransparency = 1.000
-			Arrow.Position = UDim2.new(0.906735778, 0, 0, 0)
-			Arrow.Size = UDim2.new(0, 18, 0, 21)
-			Arrow.Font = Enum.Font.SourceSans
-			Arrow.Text = ">>"
-			Arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Arrow.TextScaled = true
-			Arrow.TextSize = 14.000
-			Arrow.TextWrapped = true
-
-			DropContainer.Name = "DropContainer"
-			DropContainer.Parent = SideDrop
-			DropContainer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			DropContainer.BackgroundTransparency = 0.500
-			DropContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			DropContainer.BorderSizePixel = 4
-			DropContainer.Position = UDim2.new(1.08290148, 0, 0, 0)
-			DropContainer.Size = UDim2.new(0, 193, 0, 72)
-			DropContainer.Visible = false
-
-			UIListLayout.Parent = DropContainer
-			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-
-			for i,v in next, list do
-				local Button = Instance.new("TextButton")
-				Button.Name = v
-				Button.Parent = SideDrop.DropContainer
-				Button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-				Button.BackgroundTransparency = 1.000
-				Button.Size = UDim2.new(0, 193, 0, 24)
-				Button.Font = Enum.Font.JosefinSans
-				Button.Text = " "..v
-				Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-				Button.TextSize = 14.000
-				Button.TextXAlignment = Enum.TextXAlignment.Left
-				Button.MouseButton1Down:Connect(function()
-					if Button.TextColor3 == Color3.new(0, 255, 0) then
-					Button.TextColor3 = Color3.new(255, 255, 255)
-					else Button.TextColor3 = Color3.new(0, 255, 0) end
-					callback(v)
-				end)
-				DropContainer.Size = UDim2.new(0, DropContainer.UIListLayout.AbsoluteContentSize.X, 0, DropContainer.UIListLayout.AbsoluteContentSize.Y)
-				parent.TabContainer.Size = UDim2.new(0, parent.TabContainer.UIListLayout.AbsoluteContentSize.X, 0, parent.TabContainer.UIListLayout.AbsoluteContentSize.Y)
-			end
-		end
-		
-		function CreateTextBox(parent, buttonText, placeholderText, callback)
-			local TextBox = Instance.new("TextButton")
-			local Arrow = Instance.new("TextButton")
-			local Side = Instance.new("Frame")
-			local UIListLayout = Instance.new("UIListLayout")
-			local Box = Instance.new("TextBox")
-			local Hover = Instance.new("Frame")
-
-			TextBox.Name = buttonText
-			TextBox.Parent = parent.TabContainer
-			TextBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			TextBox.BackgroundTransparency = 1.000
-			TextBox.Size = UDim2.new(0, 193, 0, 24)
-			TextBox.Font = Enum.Font.JosefinSans
-			TextBox.Text = " "..buttonText
-			TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-			TextBox.TextSize = 14.000
-			TextBox.TextXAlignment = Enum.TextXAlignment.Left
-			TextBox.MouseButton1Down:Connect(function()
-				TextBox.TextColor3 = Color3.new(0, 255, 0)
-				wait(0.05)
-				TextBox.TextColor3 = Color3.new(255, 255, 255)
-				callback(Box.Text)
-			end)
-
-			Arrow.Name = "Arrow"
-			Arrow.Parent = TextBox
-			Arrow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Arrow.BackgroundTransparency = 1.000
-			Arrow.Position = UDim2.new(0.906735778, 0, 0, 0)
-			Arrow.Size = UDim2.new(0, 18, 0, 21)
-			Arrow.Font = Enum.Font.SourceSans
-			Arrow.Text = ">>"
-			Arrow.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Arrow.TextScaled = true
-			Arrow.TextSize = 14.000
-			Arrow.TextWrapped = true
-
-			Side.Name = "Side"
-			Side.Parent = TextBox
-			Side.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-			Side.BackgroundTransparency = 0.500
-			Side.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Side.BorderSizePixel = 4
-			Side.Position = UDim2.new(1.08290148, 0, 0, 0)
-			Side.Size = UDim2.new(0, 193, 0, 24)
-			Side.Visible = false
-			Side.MouseEnter:Connect(function()
-				Side.Visible = true
-			end)
-			Side.MouseLeave:Connect(function()
-				Side.Visible = false
-			end)
-			
-			Hover.Name = "Hover"
-			Hover.Parent = TextBox
-			Hover.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Hover.BackgroundTransparency = 1.000
-			Hover.Size = UDim2.new(0, 209, 0, 32)
-			Hover.MouseEnter:Connect(function()
-				local allTabs = game.CoreGui[tostring(title)].Top.Container:GetDescendants()
-				for index, allTabs in pairs(allTabs) do
-					if allTabs.Name == "Side" then
-						allTabs.Visible = false
-					end
-				end
-				Side.Visible = true
-			end)
-			Side.MouseLeave:Connect(function()
-				Side.Visible = false
-			end)
-			
-			UIListLayout.Parent = Side
-			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-
-			Box.Name = "Box"
-			Box.Parent = Side
-			Box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			Box.BackgroundTransparency = 1.000
-			Box.Size = UDim2.new(0, 193, 0, 24)
-			Box.Font = Enum.Font.JosefinSans
-			Box.Text = ""
-			Box.TextColor3 = Color3.fromRGB(255, 255, 255)
-			Box.TextSize = 14.000
-			Box.TextWrapped = true
-			Box.PlaceholderText = placeholderText
-			parent.TabContainer.Size = UDim2.new(0, parent.TabContainer.UIListLayout.AbsoluteContentSize.X, 0, parent.TabContainer.UIListLayout.AbsoluteContentSize.Y)
-		end
-	end
-	tabs = game.CoreGui[title].Top.Container
+local function Image(ID, Button)
+	local NewImage = Instance.new(string.format("Image%s", Button and "Button" or "Label"));
+	NewImage.Image = ID;
+	NewImage.BackgroundTransparency = 1;
+	return NewImage;
 end
+
+local function Round2px()
+	local NewImage = Image("http://www.roblox.com/asset/?id=5761488251");
+	NewImage.ScaleType = Enum.ScaleType.Slice;
+	NewImage.SliceCenter = Rect.new(2, 2, 298, 298);
+	NewImage.ImageColor3 = Color3.fromRGB(30, 30, 30);
+	return NewImage;
+end
+
+local function Shadow2px()
+	local NewImage = Image("http://www.roblox.com/asset/?id=5761498316");
+	NewImage.ScaleType = Enum.ScaleType.Slice;
+	NewImage.SliceCenter = Rect.new(17, 17, 283, 283);
+	NewImage.Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30);
+	NewImage.Position = -UDim2.fromOffset(15, 15);
+	NewImage.ImageColor3 = Color3.fromRGB(30, 30, 30);
+	return NewImage;
+end
+
+local Padding = 10;
+local DescriptionPadding = 10;
+local InstructionObjects = {};
+local TweenTime = 1;
+local TweenStyle = Enum.EasingStyle.Sine;
+local TweenDirection = Enum.EasingDirection.Out;
+
+local LastTick = tick();
+
+local function CalculateBounds(TableOfObjects)
+	local TableOfObjects = typeof(TableOfObjects) == "table" and TableOfObjects or {};
+	local X, Y = 0, 0;
+	for _, Object in next, TableOfObjects do
+		X += Object.AbsoluteSize.X;
+		Y += Object.AbsoluteSize.Y;
+	end
+	return {X = X, Y = Y, x = X, y = Y};
+end
+
+local CachedObjects = {};
+
+local function Update()
+	local DeltaTime = tick() - LastTick;
+	local PreviousObjects = {};
+	for CurObj, Object in next, InstructionObjects do
+		local Label, Delta, Done = Object[1], Object[2], Object[3];
+		if (not Done) then
+			if (Delta < TweenTime) then
+				Object[2] = math.clamp(Delta + DeltaTime, 0, 1);
+				Delta = Object[2];
+			else
+				Object[3] = true;
+			end
+		end
+		local NewValue = TweenService:GetValue(Delta, TweenStyle, TweenDirection);
+		local CurrentPos = Label.Position;
+		local PreviousBounds = CalculateBounds(PreviousObjects);
+		local TargetPos = UDim2.new(0, 0, 0, PreviousBounds.Y + (Padding * #PreviousObjects));
+		Label.Position = CurrentPos:Lerp(TargetPos, NewValue);
+		table.insert(PreviousObjects, Label);
+	end
+	CachedObjects = PreviousObjects;
+	LastTick = tick();
+end
+
+RunService:BindToRenderStep("UpdateList", 0, Update);
+
+local TitleSettings = {
+	Font = Enum.Font.GothamSemibold;
+	Size = 14;
+}
+
+local DescriptionSettings = {
+	Font = Enum.Font.Gotham;
+	Size = 14;
+}
+
+local MaxWidth = (Container.AbsoluteSize.X - Padding - DescriptionPadding);
+
+local function Label(Text, Font, Size, Button)
+	local Label = Instance.new(string.format("Text%s", Button and "Button" or "Label"));
+	Label.Text = Text;
+	Label.Font = Font;
+	Label.TextSize = Size;
+	Label.BackgroundTransparency = 1;
+	Label.TextXAlignment = Enum.TextXAlignment.Left;
+	Label.RichText = true;
+	Label.TextColor3 = Color3.fromRGB(255, 255, 255);
+	return Label;
+end
+
+local function TitleLabel(Text)
+	return Label(Text, TitleSettings.Font, TitleSettings.Size);
+end
+
+local function DescriptionLabel(Text)
+	return Label(Text, DescriptionSettings.Font, DescriptionSettings.Size);
+end
+
+local PropertyTweenOut = {
+	Text = "TextTransparency",
+	Fram = "BackgroundTransparency",
+	Imag = "ImageTransparency"
+}
+
+local function FadeProperty(Object)
+	local Prop = PropertyTweenOut[string.sub(Object.ClassName, 1, 4)];
+	TweenService:Create(Object, TweenInfo.new(0.25, TweenStyle, TweenDirection), {
+		[Prop] = 1;
+	}):Play();
+end
+
+local function SearchTableFor(Table, For)
+	for _, v in next, Table do
+		if (v == For) then
+			return true;
+		end
+	end
+	return false;
+end
+
+local function FindIndexByDependency(Table, Dependency)
+	for Index, Object in next, Table do
+		if (typeof(Object) == "table") then
+			local Found = SearchTableFor(Object, Dependency);
+			if (Found) then
+				return Index;
+			end
+		else
+			if (Object == Dependency) then
+				return Index;
+			end
+		end
+	end
+end
+
+local function ResetObjects()
+	for _, Object in next, InstructionObjects do
+		Object[2] = 0;
+		Object[3] = false;
+	end
+end
+
+local function FadeOutAfter(Object, Seconds)
+	wait(Seconds);
+	FadeProperty(Object);
+	for _, SubObj in next, Object:GetDescendants() do
+		FadeProperty(SubObj);
+	end
+	wait(0.25);
+	table.remove(InstructionObjects, FindIndexByDependency(InstructionObjects, Object));
+	ResetObjects();
+end
+
+return {
+	Notify = function(Properties)
+		local Properties = typeof(Properties) == "table" and Properties or {};
+		local Title = Properties.Title;
+		local Description = Properties.Description;
+		local Duration = Properties.Duration or 5;
+		if (Title) or (Description) then -- Check that user has provided title and/or description
+			local Y = Title and 26 or 0;
+			if (Description) then
+				local TextSize = TextService:GetTextSize(Description, DescriptionSettings.Size, DescriptionSettings.Font, Vector2.new(0, 0));
+				for i = 1, math.ceil(TextSize.X / MaxWidth) do
+					Y += TextSize.Y;
+				end
+				Y += 8;
+			end
+			local NewLabel = Round2px();
+			NewLabel.Size = UDim2.new(1, 0, 0, Y);
+			NewLabel.Position = UDim2.new(-1, 20, 0, CalculateBounds(CachedObjects).Y + (Padding * #CachedObjects));
+			if (Title) then
+				local NewTitle = TitleLabel(Title);
+				NewTitle.Size = UDim2.new(1, -10, 0, 26);
+				NewTitle.Position = UDim2.fromOffset(10, 0);
+				NewTitle.Parent = NewLabel;
+			end
+			if (Description) then
+				local NewDescription = DescriptionLabel(Description);
+				NewDescription.TextWrapped = true;
+				NewDescription.Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(-DescriptionPadding, Title and -26 or 0);
+				NewDescription.Position = UDim2.fromOffset(10, Title and 26 or 0);
+				NewDescription.TextYAlignment = Enum.TextYAlignment[Title and "Top" or "Center"];
+				NewDescription.Parent = NewLabel;
+			end
+			Shadow2px().Parent = NewLabel;
+			NewLabel.Parent = Container;
+			table.insert(InstructionObjects, {NewLabel, 0, false});
+			coroutine.wrap(FadeOutAfter)(NewLabel, Duration);
+		end
+	end,
+}
