@@ -1,0 +1,80 @@
+repeat wait() until game:IsLoaded()
+local cpusaver = {}
+local FPS_SAVER = Instance.new("ScreenGui")
+local ImageLabel = Instance.new("ImageLabel")
+local title = Instance.new("TextLabel")
+local userid = Instance.new("TextLabel")
+local currency = Instance.new("TextLabel")
+local fpsping = Instance.new("TextLabel")
+FPS_SAVER.Name = "FPS_SAVER"
+FPS_SAVER.Parent = game.CoreGui
+FPS_SAVER.Enabled = false
+FPS_SAVER.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ImageLabel.Parent = FPS_SAVER
+ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageLabel.Size = UDim2.new(1, 0, 1, 0)
+ImageLabel.Visible = false
+ImageLabel.Image = "rbxassetid://3899340539"
+title.Name = "title"
+title.Parent = ImageLabel
+title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+title.BackgroundTransparency = 1.000
+title.Position = UDim2.new(0.387892365, 0, 0.156891495, 0)
+title.Size = UDim2.new(0, 200, 0, 50)
+title.Font = Enum.Font.FredokaOne
+title.Text = "vma's cpu saver"
+title.TextColor3 = Color3.fromRGB(0, 0, 0)
+title.TextSize = 100.000
+userid.Name = "userid"
+userid.Parent = ImageLabel
+userid.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+userid.BackgroundTransparency = 1.000
+userid.Position = UDim2.new(0.387892365, 0, 0.300586492, 0)
+userid.Size = UDim2.new(0, 200, 0, 50)
+userid.Font = Enum.Font.FredokaOne
+userid.Text = "Loading..."
+userid.TextColor3 = Color3.fromRGB(0, 0, 0)
+userid.TextSize = 100.000
+currency.Name = "currency"
+currency.Parent = ImageLabel
+currency.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+currency.BackgroundTransparency = 1.000
+currency.Position = UDim2.new(0.387892365, 0, 0.439882696, 0)
+currency.Size = UDim2.new(0, 200, 0, 50)
+currency.Font = Enum.Font.FredokaOne
+currency.Text = "Loading..."
+currency.TextColor3 = Color3.fromRGB(0, 0, 0)
+currency.TextSize = 100.000
+fpsping.Name = "fpsping"
+fpsping.Parent = ImageLabel
+fpsping.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+fpsping.BackgroundTransparency = 1.000
+fpsping.Position = UDim2.new(0.387892365, 0, 0.592375338, 0)
+fpsping.Size = UDim2.new(0, 200, 0, 50)
+fpsping.Font = Enum.Font.FredokaOne
+fpsping.Text = "Loading..."
+fpsping.TextColor3 = Color3.fromRGB(0, 0, 0)
+fpsping.TextSize = 100.000
+getgenv().cpusaver.SetSaver = function(x)
+    game:GetService("RunService"):Set3dRenderingEnabled(x)
+    FPS_SAVER.Enabled = x 
+    ImageLabel.Visible = x
+    setfpscap(savercap or 10)
+end
+getgenv().cpusaver.SetCap = function(x)
+    getgenv().savercap = (typeof(tonumber(x)) == 'number' and x or 10)
+end 
+spawn(function()
+    frames = 0
+    game:GetService('RunService').RenderStepped:Connect(function()
+        frames = frames+1
+    end)
+end)
+spawn(function()
+    userid.Text = game.Players.LocalPlayer.Name.." / "..game.Players.LocalPlayer.UserId
+    while wait(1) do 
+        fpsping.Text = "FPS: "..frames.." | PING: "..math.round(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString())
+        frames = 0
+    end
+end)
+return cpusaver
