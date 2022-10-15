@@ -9,6 +9,7 @@ FPS_SAVER.Name = "FPS_SAVER"
 FPS_SAVER.Parent = game.CoreGui
 FPS_SAVER.Enabled = false
 FPS_SAVER.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+FPS_SAVER.IgnoreGuiInset = true
 ImageLabel.Parent = FPS_SAVER
 ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 ImageLabel.Size = UDim2.new(1, 0, 1, 0)
@@ -55,24 +56,20 @@ fpsping.Text = "Loading..."
 fpsping.TextColor3 = Color3.fromRGB(0, 0, 0)
 fpsping.TextSize = 100.000
 getgenv().SetSaver = function(x)
-    game:GetService("RunService"):Set3dRenderingEnabled(x)
-    FPS_SAVER.Enabled = (not x)
+    game:GetService("RunService"):Set3dRenderingEnabled(not x)
+    getgenv().saverin = x
+    FPS_SAVER.Enabled = x
     ImageLabel.Visible = x
     setfpscap(savercap or 10)
 end
 getgenv().SetCap = function(x)
     getgenv().savercap = (typeof(tonumber(x)) == 'number' and x or 10)
-end 
+end
+
+userid.Text = game.Players.LocalPlayer.Name.." / "..game.Players.LocalPlayer.UserId
 spawn(function()
-    frames = 0
-    game:GetService('RunService').RenderStepped:Connect(function()
-        frames = frames+1
-    end)
-end)
-spawn(function()
-    userid.Text = game.Players.LocalPlayer.Name.." / "..game.Players.LocalPlayer.UserId
-    while wait(1) do 
-        fpsping.Text = "FPS: "..frames.." | PING: "..math.round(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString())
-        frames = 0
+    while saverin do 
+        fpsping.Text = "PING: "..math.round(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())
+        wait(2)
     end
 end)
