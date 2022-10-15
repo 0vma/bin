@@ -1,5 +1,4 @@
 repeat wait() until game:IsLoaded()
-local cpusaver = {}
 local FPS_SAVER = Instance.new("ScreenGui")
 local ImageLabel = Instance.new("ImageLabel")
 local title = Instance.new("TextLabel")
@@ -55,13 +54,13 @@ fpsping.Font = Enum.Font.FredokaOne
 fpsping.Text = "Loading..."
 fpsping.TextColor3 = Color3.fromRGB(0, 0, 0)
 fpsping.TextSize = 100.000
-getgenv().cpusaver.SetSaver = function(x)
+getgenv().SetSaver = function(x)
     game:GetService("RunService"):Set3dRenderingEnabled(x)
-    FPS_SAVER.Enabled = x 
+    FPS_SAVER.Enabled = (not x)
     ImageLabel.Visible = x
     setfpscap(savercap or 10)
 end
-getgenv().cpusaver.SetCap = function(x)
+getgenv().SetCap = function(x)
     getgenv().savercap = (typeof(tonumber(x)) == 'number' and x or 10)
 end 
 spawn(function()
@@ -77,4 +76,3 @@ spawn(function()
         frames = 0
     end
 end)
-return cpusaver
