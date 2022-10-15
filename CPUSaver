@@ -56,11 +56,13 @@ fpsping.Text = "Loading..."
 fpsping.TextColor3 = Color3.fromRGB(0, 0, 0)
 fpsping.TextSize = 100.000
 getgenv().SetSaver = function(x)
+    spawn(function()
     game:GetService("RunService"):Set3dRenderingEnabled(not x)
     getgenv().saverin = x
     FPS_SAVER.Enabled = x
     ImageLabel.Visible = x
     setfpscap(savercap or 10)
+    end)
 end
 getgenv().SetCap = function(x)
     getgenv().savercap = (typeof(tonumber(x)) == 'number' and x or 10)
