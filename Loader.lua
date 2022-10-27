@@ -1,5 +1,5 @@
 if print == loadstring then game:shutdown(); -- common anti dump check (doubt anyone would actually use this LOL)
-local methods = {"print", "warn", "error", "rconsoleprint", "rconsolewarn", "rconsoleerr", "rconsoleinfo"}
+local methods = {print, warn, error, rconsoleprint, rconsolewarn, rconsoleerr, rconsoleinfo}
 for i = 1, #methods do
     if typeof(methods[i]) == 'function' then
         old = hookfunction(methods[i], function(...) -- anti http logger (multiple methods)
