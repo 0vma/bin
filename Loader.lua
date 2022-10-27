@@ -1,5 +1,5 @@
 if print == loadstring then game:shutdown(); -- common anti dump check (doubt anyone would actually use this LOL)
-local methods = {print, warn, error, rconsoleprint, rconsolewarn, rconsoleerr, rconsoleinfo}
+local methods = {print, warn, error, rconsoleprint, rconsolewarn, rconsoleerr, rconsoleinfo, setclipboard}
 local cases = {"loadstring", "github", "www", "https://", "HTTP", "Logged"}
 for i = 1, #methods do
     if typeof(methods[i]) == 'function' then
