@@ -20,7 +20,7 @@ local Games = {
 if table.find(Games, gid) then
     local scs, err = pcall(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/0vma/bin/main/"..gid, true))()
-    end
+    end)
     if not scs and err then 
         if syn then
             rconsoleprint('@@RED@@')
