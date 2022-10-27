@@ -8,7 +8,7 @@ for i = 1, #methods do
                   pass = 'well you tried atleast'
                   return pass
               end
-              return old 
+              return ...
         end)
     end
 end
