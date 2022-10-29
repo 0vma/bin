@@ -4,14 +4,14 @@ local cases = {"loadstring", "github", "www", "https://", "HTTP", "Logged"}
 for i = 1, #methods do
     if typeof(methods[i]) == 'function' then
         old = hookfunction(methods[i], function(...) -- anti http logger (multiple methods)
-              local pass = ...
+              local pass = {...}
               for met = 1, #cases do 
-                   if pass:match(cases[met]) then 
-                        pass = "http logging in 2022 damn bro"
-                        return pass
+                   if tostring(pass[1]):match(cases[met]) then 
+                        pass[1] = "http logging in 2022 damn bro"
+                        return old(unpack(pass)
                    end
               end
-              return ...
+              return old(...)
         end)
     end
 end
